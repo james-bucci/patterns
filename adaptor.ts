@@ -1,3 +1,5 @@
+// https://mertarauh.com/tutorials/typescript-design-patterns/adapter-pattern/
+
 module ThirdpartyLib {
     
     export class StringNewsServer {
@@ -8,11 +10,12 @@ module ThirdpartyLib {
             /* validate userName and passWord then */
             return "StringNewsServer.newsItem1;StringNewsServer.newsItem2;StringNewsServer.newsItem3";
         }
+
     }
 
     export class ArrayNewsServer {
         public url: string;
-        public getArray(): Array {
+        public getArray(): Array<string> {
             /* use url to fetch data then */
             return ["ArrayNewsServer.newsItem1", "ArrayNewsServer.newsItem2", "ArrayNewsServer.newsItem3"];
         }
@@ -21,14 +24,14 @@ module ThirdpartyLib {
 
 module News {
     export interface INewsServerInterface {
-        getNews(): Array;
+        getNews(): Array<string>;
     }
 
     export class NewsLoader {
         public Load(server: INewsServerInterface) {
             var news = server.getNews();
             news.forEach((value: string) => {
-                Output.WriteLine(value);
+                console.log(value);
             });
         }
     }
@@ -59,13 +62,13 @@ module News {
         }
     }
 
-    window.addEventListener("load", function () {
-        var newsLoader = new NewsLoader();
+var newsLoader = new NewsLoader();
 
-        var arrayNewsServer = new ArrayNewsServerAdapter();
-        newsLoader.Load(arrayNewsServer);
+var arrayNewsServer = new ArrayNewsServerAdapter();
+newsLoader.Load(arrayNewsServer);
 
-        var stringNewsServer = new StringNewsServerAdapter();
-        newsLoader.Load(stringNewsServer);
-    });
+var stringNewsServer = new StringNewsServerAdapter();
+newsLoader.Load(stringNewsServer);
+
 }
+
